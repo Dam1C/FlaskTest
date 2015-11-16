@@ -57,9 +57,12 @@
                     type: 'POST',
                     success: function(response) {
                         console.log(response);
+                        alert("Usuario creado correctamente.")
+                        window.location.href = "/showSignIn"
 
                     },
                     error: function(error) {
+                        alert("El usuario ya existe.")
                         console.log(error);
 
                     }

@@ -31,6 +31,7 @@ def signUp():
     # Insertamos
     result = registerQuery(_name,_email,_password)
     if result:
+        showSignin()
         return redirect('/')
     else:
         return render_template('error.html',error = 'El usuario ya existe.')
@@ -59,7 +60,7 @@ def validateLogin():
 @app.route('/userHome')
 def userHome():
     if session.get('user'):
-        return render_template('userHome.html')
+        return render_template('userHome.html',message = 'BIENVENIDO GUARRA')
     else:
         return render_template('error.html',error = 'Unauthorized Access')
 
