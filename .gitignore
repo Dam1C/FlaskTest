@@ -2,3 +2,6 @@
 .idea/*
 
 *.xml
+*.iml
+*.iml
+.idea/FlaskTest.iml
