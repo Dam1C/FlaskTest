@@ -47,17 +47,21 @@ def validateLogin():
     result = loginQuery(_username,_password)
     data = sessionQuery(_username)
 
-    
+
+
 
     if result:
-        #session['user'] = data
+        session['user'] = 1
         return redirect('/userHome')
     else:
         return render_template('error.html',error = 'Wrong Email address or Password.')
 
 @app.route('/userHome')
 def userHome():
-    return render_template('userHome.html')
+    if session.get('user'):
+        return render_template('userHome.html')
+    else:
+        return render_template('error.html',error = 'Unauthorized Access')
 
 if __name__ == '__main__':
     app.run()
