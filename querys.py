@@ -61,6 +61,11 @@ def registerQuery(user,mail,hashPass):
     for c in cursor:
         return False;
 
+    cursor = db.users.find({"mail":mail.lower()})
+
+    for c in cursor:
+        return False;
+
     result = db.users.insert(
             {
                 "user":user.lower(),

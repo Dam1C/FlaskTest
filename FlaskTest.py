@@ -31,9 +31,9 @@ def signUp():
     # Insertamos
     result = registerQuery(_name,_email,_password)
     if result:
-        return main()
+        return redirect('/')
     else:
-        return main()
+        return render_template('error.html',error = 'El usuario ya existe.')
 
 
 @app.route('/showSignIn')
