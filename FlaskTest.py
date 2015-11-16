@@ -45,21 +45,12 @@ def validateLogin():
     _username = request.form['inputEmail']
     _password = request.form['inputPassword']
     result = loginQuery(_username,_password)
-    dataMongo = sesionQuery(_username)
+    data = sessionQuery(_username)
 
     
 
-    for c in dataMongo:
-        data[0][0] = c.get("_id")
-    #data[0][0]= dataMongo.get("_id")
-    #data[0][1]= dataMongo.get("user")
-    #data[0][2]= dataMongo.get("mail")
-    #data[0][3]= dataMongo.get("password")
-
-
-
     if result:
-        #session['user'] = dataMongo.get("_id")
+        #session['user'] = data
         return redirect('/userHome')
     else:
         return render_template('error.html',error = 'Wrong Email address or Password.')
