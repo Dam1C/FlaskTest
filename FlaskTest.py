@@ -1,14 +1,11 @@
-from flask import Flask, render_template, json, request, session, redirect
+from flask import render_template, request, session, redirect
 #from flask.ext.pymongo import PyMongo
 from querys import *
-from pymongo import MongoClient
-import hashlib
 from flask import Flask
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map
 from gmaps import Geocoding
-
-
+import geocoder
 
 
 app = Flask(__name__)
@@ -71,16 +68,19 @@ def userHome():
     if session.get('user'):
 
 
-        loc = coordenadesCiutat("Barcelona","ES")#TODO Controlar excepcion
-        latMongo = loc.get("latitude")
-        lonMongo = loc.get("longitude")
-        results = mapsAPI.reverse(latMongo, lonMongo)
-        for c in results:
-            print(c)
-
-        #adress = gmaps.reverse_geocode(latMongo,lonMongo)
-        #print(adress)
-
+        loc = coordenadesCiutat("Barceelona","ES")
+        if loc != None:
+            latMongo = loc.get("latitude")
+            lonMongo = loc.get("longitude")
+            g = geocoder.google([latMongo,lonMongo],method='reverse')
+            print(g)
+            gd = geocoder.google('Sabadell')
+            print(gd)
+            #adress = gmaps.reverse_geocode(latMongo,lonMongo)
+            #print(adress)
+        else:
+            latMongo = 0#TODO Cambiar mierda
+            lonMongo = 0
         #Creamos mapas
         sndmap = Map(
             identifier="sndmap",

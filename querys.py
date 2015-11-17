@@ -14,14 +14,14 @@ def coordenadesCiutat(mongoquery,codPais):
 
     cursor = db.cities.find({"name":mongoquery})
 
-    for u in cursor:
-        if u.get("country") == codPais:
-            loc = u.get("loc")
+    print(cursor.count())
 
-
-
-
-
+    if cursor.count() != 0:
+        for u in cursor:
+            if u.get("country") == codPais:
+                loc = u.get("loc")
+    else:
+        loc = None
 
 
     return loc;
