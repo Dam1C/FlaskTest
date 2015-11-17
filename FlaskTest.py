@@ -3,6 +3,8 @@ from flask import Flask, render_template, json, request, session, redirect
 from querys import *
 from pymongo import MongoClient
 import hashlib
+from flask import Flask
+from flask_googlemaps import GoogleMaps
 
 
 app = Flask(__name__)
@@ -41,18 +43,19 @@ def signUp():
 def showSignin():
     return render_template('signin.html')
 
+
 @app.route('/validateLogin',methods=['POST'])
 def validateLogin():
     _username = request.form['inputEmail']
     _password = request.form['inputPassword']
     result = loginQuery(_username,_password)
-    data = sessionQuery(_username)
+    #name = sessionQuery(_username)
+
+    #print(name)
 
 
-
-
-    if result:
-        session['user'] = 1
+    if result != None:
+        session['user'] = result
         return redirect('/userHome')
     else:
         return render_template('error.html',error = 'Wrong Email address or Password.')
@@ -60,7 +63,7 @@ def validateLogin():
 @app.route('/userHome')
 def userHome():
     if session.get('user'):
-        return render_template('userHome.html',message = 'BIENVENIDO GUARRA')
+        return render_template('userHome.html',message = 'Bienvenido, '+session.get('user').capitalize())#Mostramos el nombre del usuario que inicia sesión. Capitalize es para que la primera letra sea mayuscula
     else:
         return render_template('error.html',error = 'Unauthorized Access')
 

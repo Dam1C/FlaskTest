@@ -16,17 +16,6 @@ def citiesQuery(mongoquery):
 
     return cursor;
 
-def sessionQuery(mail):
-
-    client = MongoClient()
-
-    client = MongoClient("mongodb://10.1.133.102:27017")
-
-    db = client.examenLOCALIZ
-
-    cursor = db.users.find({"mail":mail.lower})
-
-    return cursor;
 
 
 
@@ -44,9 +33,10 @@ def loginQuery(mail,hashPass):
 
     for u in cursor:
         if u.get("password") == hashPass:
-            return True
+            user = u.get("user")
+            return user
 
-    return False;
+    return None;
 
 def registerQuery(user,mail,hashPass):
 
