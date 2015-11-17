@@ -5,15 +5,19 @@ from pymongo import MongoClient
 import hashlib
 from flask import Flask
 from flask_googlemaps import GoogleMaps
+from flask_googlemaps import Map
+from gmaps import Geocoding
+
+
 
 
 app = Flask(__name__)
 app.secret_key = 'GregorioSecretKey'
-
+GoogleMaps(app)
+mapsAPI = Geocoding()
 
 @app.route('/')
 def main():
-
     return render_template('index.html')
 
 @app.route('/showSignUp')
@@ -62,8 +66,30 @@ def validateLogin():
 
 @app.route('/userHome')
 def userHome():
+
+
     if session.get('user'):
-        return render_template('userHome.html',message = 'Bienvenido, '+session.get('user').capitalize())#Mostramos el nombre del usuario que inicia sesión. Capitalize es para que la primera letra sea mayuscula
+
+
+        loc = coordenadesCiutat("Barcelona","ES")#TODO Controlar excepcion
+        latMongo = loc.get("latitude")
+        lonMongo = loc.get("longitude")
+        results = mapsAPI.reverse(latMongo, lonMongo)
+        for c in results:
+            print(c)
+
+        #adress = gmaps.reverse_geocode(latMongo,lonMongo)
+        #print(adress)
+
+        #Creamos mapas
+        sndmap = Map(
+            identifier="sndmap",
+            lat=latMongo,
+            lng=lonMongo,
+            markers={'http://maps.google.com/mapfiles/ms/icons/green-dot.png':[(latMongo, lonMongo)]}#,
+                    # 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png':[(37.4300, -122.1400)]}
+        )
+        return render_template('userHome.html',message = 'Bienvenido, '+session.get('user').capitalize(), sndmap=sndmap)#Mostramos el nombre del usuario que inicia sesion. Capitalize es para que la primera letra sea mayuscula
     else:
         return render_template('error.html',error = 'Unauthorized Access')
 
@@ -71,6 +97,27 @@ def userHome():
 def logout():
     session.pop('user',None)
     return redirect('/')
+
+
+@app.route("/map")
+def mapview():
+    # creating a map in the view
+    mymap = Map(
+        identifier="view-side",
+        lat=37.4419,
+        lng=-122.1419,
+        markers=[(37.4419, -122.1419)]
+    )
+    sndmap = Map(
+        identifier="sndmap",
+        lat=37.4419,
+        lng=-122.1419,
+        markers={'http://maps.google.com/mapfiles/ms/icons/green-dot.png':[(37.4419, -122.1419)],
+                 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png':[(37.4300, -122.1400)]}
+    )
+    return render_template('example.html', mymap=mymap, sndmap=sndmap)
+
+
 
 if __name__ == '__main__':
     app.run()

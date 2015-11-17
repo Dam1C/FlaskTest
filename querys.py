@@ -3,7 +3,7 @@ from pymongo import MongoClient
 
 
 
-def citiesQuery(mongoquery):
+def coordenadesCiutat(mongoquery,codPais):
 
     client = MongoClient()
 
@@ -14,7 +14,17 @@ def citiesQuery(mongoquery):
 
     cursor = db.cities.find({"name":mongoquery})
 
-    return cursor;
+    for u in cursor:
+        if u.get("country") == codPais:
+            loc = u.get("loc")
+
+
+
+
+
+
+
+    return loc;
 
 
 
