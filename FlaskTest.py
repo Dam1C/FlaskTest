@@ -57,7 +57,10 @@ def validateLogin():
 
 
     if result != None:
-        session['dict'] = result
+        #session['dict'] = result
+        session['name']=result.get('user')
+        session['mail']=result.get('mail')
+        session['loc']=result.get('loc')
         return redirect('/userHome')
     else:
         return render_template('error.html',error = 'Wrong Email address or Password.')
@@ -66,9 +69,8 @@ def validateLogin():
 def userHome():
 
     if session:
-        print(session)
         #loc = coordenadesCiutat("Barcelona","ES")
-        loc = getCoordCasa(session.get('dict').get('mail'))
+        loc = getCoordCasa(session.get('mail'))
         print(loc)
         if loc != None:
             latMongo = loc.get("latitude")
@@ -84,13 +86,14 @@ def userHome():
             markers={'http://maps.google.com/mapfiles/ms/icons/green-dot.png':[(latMongo, lonMongo)]}#,
                     # 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png':[(37.4300, -122.1400)]}
         )
-        return render_template('userHome.html',message = 'Bienvenido, '+session.get('dict').get('mail').capitalize(), sndmap=sndmap)#Mostramos el nombre del usuario que inicia sesion. Capitalize es para que la primera letra sea mayuscula
+        return render_template('userHome.html',message = 'Bienvenido, '+session.get('mail').capitalize(), sndmap=sndmap)#Mostramos el nombre del usuario que inicia sesion. Capitalize es para que la primera letra sea mayuscula
     else:
         return render_template('error.html',error = 'Unauthorized Access')
 
 @app.route('/logout')
 def logout():
-    session.pop('dict',None)
+    #session.pop('dict',None)
+    session.clear()
     return redirect('/')
 
 
