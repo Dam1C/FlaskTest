@@ -1,4 +1,4 @@
-from flask import render_template, request, session, redirect
+from flask import render_template, request, session, redirect, jsonify
 #from flask.ext.pymongo import PyMongo
 from querys import *
 from flask import Flask
@@ -28,11 +28,14 @@ def signUp():
     _name = request.form['inputName']
     _email = request.form['inputEmail']
     _password = request.form['inputPassword']
+    _lat = request.form['lat']
+    _lon = request.form['lon']
 
+    loc = {'latitude':_lat,'longitude':_lon}
 
 
     # Insertamos
-    result = registerQuery(_name,_email,_password)
+    result = registerQuery(_name,_email,_password,"e")
     if result:
         showSignin()
         return redirect('/')
@@ -66,18 +69,10 @@ def userHome():
 
 
     if session.get('user'):
-
-
-        loc = coordenadesCiutat("Barceelona","ES")
+        loc = coordenadesCiutat("Barcelona","ES")
         if loc != None:
             latMongo = loc.get("latitude")
             lonMongo = loc.get("longitude")
-            g = geocoder.google([latMongo,lonMongo],method='reverse')
-            print(g)
-            gd = geocoder.google('Sabadell')
-            print(gd)
-            #adress = gmaps.reverse_geocode(latMongo,lonMongo)
-            #print(adress)
         else:
             latMongo = 0#TODO Cambiar mierda
             lonMongo = 0
@@ -120,4 +115,4 @@ def mapview():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')

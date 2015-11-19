@@ -7,14 +7,13 @@ def coordenadesCiutat(mongoquery,codPais):
 
     client = MongoClient()
 
-    client = MongoClient("mongodb://10.1.133.102:27017")
+    client = MongoClient("mongodb://127.0.0.1:27017")
 
     db = client.examenLOCALIZ
 
 
     cursor = db.cities.find({"name":mongoquery})
 
-    print(cursor.count())
 
     if cursor.count() != 0:
         for u in cursor:
@@ -35,7 +34,7 @@ def loginQuery(mail,hashPass):
 
     client = MongoClient()
 
-    client = MongoClient("mongodb://10.1.133.102:27017")
+    client = MongoClient("mongodb://127.0.0.1:27017")
 
     db = client.examenLOCALIZ
 
@@ -48,11 +47,11 @@ def loginQuery(mail,hashPass):
 
     return None;
 
-def registerQuery(user,mail,hashPass):
+def registerQuery(user,mail,hashPass,loc):
 
     client = MongoClient()
 
-    client = MongoClient("mongodb://10.1.133.102:27017")
+    client = MongoClient("mongodb://127.0.0.1:27017")
 
     db = client.examenLOCALIZ
 
@@ -70,7 +69,8 @@ def registerQuery(user,mail,hashPass):
             {
                 "user":user.lower(),
                 "password":hashPass,
-                "mail":mail.lower()
+                "mail":mail.lower(),
+                "loc":loc
             })
     return True;
 
