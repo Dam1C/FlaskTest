@@ -25,8 +25,18 @@ def coordenadesCiutat(mongoquery,codPais):
 
     return loc;
 
+def getCoordCasa(mail):
 
+    client = MongoClient()
 
+    client = MongoClient("mongodb://127.0.0.1:27017")
+
+    db = client.examenLOCALIZ
+
+    cursor = db.users.find({"mail":mail.lower()})
+
+    for c in cursor:
+       return c.get("loc")
 
 
 
@@ -42,8 +52,7 @@ def loginQuery(mail,hashPass):
 
     for u in cursor:
         if u.get("password") == hashPass:
-            user = u.get("user")
-            return user
+            return u
 
     return None;
 
