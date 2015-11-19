@@ -71,8 +71,7 @@ def userHome():
     if session:
         #loc = coordenadesCiutat("Barcelona","ES")
         loc = getCoordCasa(session.get('mail'))
-        print(loc)
-        if loc != None:
+        if loc.get('latitude') != "" and loc.get('longitude') != "":
             latMongo = loc.get("latitude")
             lonMongo = loc.get("longitude")
         else:
@@ -86,7 +85,7 @@ def userHome():
             markers={'http://maps.google.com/mapfiles/ms/icons/green-dot.png':[(latMongo, lonMongo)]}#,
                     # 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png':[(37.4300, -122.1400)]}
         )
-        return render_template('userHome.html',message = 'Bienvenido, '+session.get('mail').capitalize(), sndmap=sndmap)#Mostramos el nombre del usuario que inicia sesion. Capitalize es para que la primera letra sea mayuscula
+        return render_template('userHome.html',message = 'Bienvenido, '+session.get('name').capitalize(), sndmap=sndmap)#Mostramos el nombre del usuario que inicia sesion. Capitalize es para que la primera letra sea mayuscula
     else:
         return render_template('error.html',error = 'Unauthorized Access')
 
