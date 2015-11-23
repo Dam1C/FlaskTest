@@ -64,11 +64,6 @@ def registerQuery(user,mail,hashPass,loc):
 
     db = client.examenLOCALIZ
 
-    cursor = db.users.find({"user":user.lower()})
-
-    for c in cursor:
-        return False;
-
     cursor = db.users.find({"mail":mail.lower()})
 
     for c in cursor:
@@ -84,3 +79,25 @@ def registerQuery(user,mail,hashPass,loc):
     return True;
 
 
+def getCountries():
+
+    client = MongoClient()
+
+    client = MongoClient("mongodb://127.0.0.1:27017")
+
+    db = client.examenLOCALIZ
+
+    pipeline =  [
+                    { "$group" : { "_id" : "$country"} }
+                ]
+
+    cursor = db.cities.aggregate(pipeline)
+
+    lista = []
+
+    for c in cursor:
+        lista.append(c.get("_id"))
+
+    lista.sort()
+
+    return lista

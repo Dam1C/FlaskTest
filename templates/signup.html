@@ -71,13 +71,21 @@
                     data: $('form').serialize(),
                     type: 'POST',
                     success: function(response) {
-                        console.log(response);
-                        alert("Usuario creado correctamente. Ya puede iniciar sesión.")
-                        window.location.href = "/showSignIn"
+                        if(response=="1")
+                        {
+                            alert("Usuario creado correctamente. Ya puede iniciar sesión.");
+                            window.location.href = "/showSignIn";
+                        }
+                        else
+                        {
+                            alert("El usuario ya existe.");
+
+                        }
+
 
                     },
                     error: function(error) {
-                        alert("El usuario ya existe.")
+                        alert("Erroraso.");
                         console.log(error);
 
                     }
