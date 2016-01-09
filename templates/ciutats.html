@@ -9,6 +9,7 @@
 
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
     <link href="../static/css/signup.css" rel="stylesheet">
+
     <!-- MAPAS -->
 
 
@@ -18,73 +19,85 @@
 
 <body>
 
-    <div class="container">
-        <div class="header">
-            <nav>
-                <ul class="nav nav-pills pull-right">
-                    <li role="presentation" class="active"><a href="/logout">Cerrar Sesión</a>
-                    <li role="presentation" class="active"><a href="/userHome">Home</a>
-                    </li>
-                </ul>
-            </nav>
-            <h3 class="text-muted">JordiEric PYMONGO</h3>
-        </div>
-
-        <div class="jumbotron">
-
-                <!-- <form class="form-signin" action="/validateLogin" method="post">
-                <label for="inputEmail" class="sr-only">Email address</label>
-                <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
-
-                <button id="btnSignIn" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                </form> -->
-
-
-            <div class="row marketing">
-                <div class="col-lg-6">
-                    <h4>Pais</h4>
-                    <div class="dropdown">
-                      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        Dropdown
-                        <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenu1">
-                          {{ paisos }}
-                      </ul>
-                    </div>
-
-                    <h4>Iniciar Sesión</h4>
-                    <p>A través de un formulario comprobamos si el usuario existe en la base de datos y si su contraseña es correcta, inicia sesión.</p>
-
-                    <h4>User Home</h4>
-                    <p>Página donde accedes al inicar sesión. Sólo se puede acceder con una sesión válida, sinó denega el acceso.</p>
-                </div>
-
-                <div class="col-lg-6">
-                    <h4>Inicio</h4>
-                    <p>Página princial. Es lo que vemos al entrar por primera vez.</p>
-
-                    <h4>LogOut</h4>
-                    <p>Borra la variable sesión y vuelve al inicio.</p>
-                    <br><br>
-
-                <h4>querys.py</h4>
-                    <p>Fichero donde se aprecia la conexión con MongoDB. Contiene nuestras querys para agilizar y limpiar el código.</p>
-                </div>
-            </div>
-        </div>
-        <footer class="footer">
-            <p>&copy; JordiEric PYMONGO Crack Edition (V2.03)</p>
-        </footer>
-
+<div class="container">
+    <div class="header">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation" class="active"><a href="/logout">Cerrar Sesión</a>
+                <li role="presentation" class="active"><a href="/userHome">Home</a>
+                </li>
+            </ul>
+        </nav>
+        <h3 class="text-muted">JordiEric PYMONGO</h3>
     </div>
 
+    <div class="jumbotron">
 
+        <!-- <form class="form-signin" action="/validateLogin" method="post">
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
+
+        <button id="btnSignIn" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        </form> -->
+
+
+        <div class="row marketing">
+            <form action="cercaCiutats" method="post">
+                <div class="col-lg-6">
+                    <h4>Paisos</h4>
+                    <!--div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Pais
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu scrollable-menu" role="menu" aria-labelledby="dropdownMenu1" style="height: auto; max-height:200px;overflow-x: hidden; margin-left:50px;">
+
+                        </ul>
+                    </div-->
+                    <select multiple class="form-control" name="paisosSelect">
+                        {{ paisos }}
+                    </select>
+
+
+
+                </div>
+
+                <div class="col-lg-6">
+                    <h4>Población</h4>
+                    <div class="input-group">
+                        <span class="input-group-addon" >Mínim</span>
+                        <input type="number" class="form-control" placeholder="Número de població" name="poblacioMinim">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" >Màxim</span>
+                        <input type="number" class="form-control" placeholder="Número de població" name="poblacioMaxim">
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <button type="submit" class="btn btn-default" style="margin-top: 25px;">Cerca</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <footer class="footer">
+        <p>&copy; JordiEric PYMONGO Crack Edition (V2.03)</p>
+    </footer>
+
+</div>
+
+<script src="../static/js/selectize.js"></script>
 <script src="//code.jquery.com/jquery-1.11.3.min.js">
 </script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" ></script>
+<script type="text/javascript" >
+    //$(document).ready(function(){ $('ul.subnav > li').slice(10).remove();});
+
+
+</script>
 </body>
 
 </html>

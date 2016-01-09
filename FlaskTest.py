@@ -61,7 +61,7 @@ def validateLogin():
         session['loc'] = result.get('loc')
         return redirect('/userHome')
     else:
-        return render_template('error.html', error='Wrong Email address or Password.')
+        return render_template('error.html', error='El email o password no es correcto.')
 
 
 @app.route('/userHome')
@@ -94,10 +94,10 @@ def ciutats():
     lista = getCountries()
     paisosHTML = ""
     for pais in lista:
-        paisosHTML += "<li><a href=""#"">" + pais + "</a></li>\n"
+        paisosHTML += "<option>" + pais + "</option>\n"#<li><a href=""#"">" + pais + "</a></li>\n"
 
     paisosHTML = Markup(paisosHTML)
-    return render_template('ciutats.html', paisos=paisosHTML)
+    return render_template('ciutats.html',paisos=paisosHTML)
 
 
 @app.route('/logout')
@@ -124,6 +124,45 @@ def mapview():
                  'http://maps.google.com/mapfiles/ms/icons/blue-dot.png': [(37.4300, -122.1400)]}
     )
     return render_template('example.html', mymap=mymap, sndmap=sndmap)
+
+@app.route('/cercaCiutats', methods=['POST'])
+def cercaCiutats():
+    _paisos = request.form.getlist('paisosSelect')
+    _paisos = [x.encode('utf-8') for x in _paisos]
+
+
+    _poblacioMinim = request.form['poblacioMinim'].encode('utf-8')
+    _poblacioMaxim = request.form['poblacioMaxim'].encode('utf-8')
+
+
+    try:
+        _poblacioMaxim = int(_poblacioMaxim)
+    except ValueError:
+       _poblacioMaxim = 999999999999
+
+    try:
+        _poblacioMinim = int(_poblacioMinim)
+    except ValueError:
+       _poblacioMinim = 0
+
+
+
+
+    cursor = getCities(_paisos,_poblacioMinim,_poblacioMaxim)
+
+    sndmap = Map(
+        identifier="sndmap",
+        lat=37.4419,
+        lng=-122.1419,
+        markers={'http://maps.google.com/mapfiles/ms/icons/green-dot.png': [(37.4419, -122.1419)],
+                 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png': [(37.4300, -122.1400)]}
+    )
+    #i = 0
+    #ciutats = ""
+    #for c in cursor:
+        #ciutats += "<h1>"+str(i)+":  "+c.get("name")+"</h1>"
+       # i+=1
+    return render_template('resultat.html', resul=cursor, sndmap = sndmap)
 
 
 if __name__ == '__main__':
